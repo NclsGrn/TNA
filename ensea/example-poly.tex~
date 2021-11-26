@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt,DIV=14,french,
+% titlepage=false,
+% headings=onelinechapter,
+% chapterprefix=true,
+]{scrreprt}
+% ]{scrbook}
+
+\usepackage{enseatitlepage}
+
+\usepackage[T1]{fontenc}
+%\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{mathspec}
+\usepackage{xltxtra}
+\usepackage{microtype}
+
+
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setotherlanguage{english}
+
+
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\let\down=\textsubscript
+\let\up=\textsuperscript
+\let\strong=\textbf
+
+
+
+% Title Page
+%\titlehead{Document de travail}
+\title{Électronique Analogique II}
+\subtitle{DEP\_1322}
+\subject{Sujets de Travaux Dirigés}
+\author{Christophe Barès}
+\date{Avril 2020}
+\degree{1\up{re} année AB}
+
+% 
+\renewcommand{\chapterformat}{\chapapp~\thechapter\autodot\enskip--\enskip}
+\setkomafont{chapter}{\normalfont\Large\scshape}
+
+
+
+\begin{document}
+\maketitle
+
+% \setcounter{tocdepth}{1}
+% \tableofcontents
+
+
+\end{document}

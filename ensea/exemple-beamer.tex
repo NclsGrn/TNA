@@ -1,0 +1,106 @@
+\documentclass[
+10pt,
+aspectratio=169,
+]{beamer}
+
+
+\usepackage{lipsum}
+\usepackage{tikz}
+
+\title{Conception d'un  système de traitement anti-bruit pour casque audio}
+\subtitle{}
+\date[26/11/2021]{TP-TNA ENSEA}
+\author[PG]{Perret Emma \& Guerin Nicolas}
+%\institute{date}
+
+\usetheme{ensea}  
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{CDC}
+\begin{frame}{}
+\frametitle{Définition du cahier des charges} 
+\framesubtitle{Signal de sortie du PDM} 
+
+\begin{enumerate} 
+\item[•] $F_s=48 \times 10^{3}$
+\item[•] Bande passante : $\frac{F_s}{2}= 24 $ kHz
+\item[•] $N= 20 bits$ 
+\item[•]$SNR = 122.16 dB$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{A longer title}
+\begin{itemize}
+\item one
+\item two
+\item three
+\end{itemize}
+\end{frame}
+
+\section{Section 2}
+\subsection{One column}
+
+\begin{frame}{Slide with a long text}{So hugly!}
+\small
+\lipsum[1-2]
+\end{frame}
+
+\subsection{More than one column}
+
+\begin{frame}{Slide with 2 colums}
+\begin{columns}[t]
+  \begin{column}{.45\textwidth}
+    \lipsum[2]
+  \end{column}
+  \begin{column}{.45\textwidth}
+    \lipsum[2]
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Slide with 3 colums}
+\begin{columns}[t]\small
+  \begin{column}{.3\textwidth}
+    \lipsum[11]
+  \end{column}
+  \begin{column}{.3\textwidth}
+    \lipsum[13]
+  \end{column}
+  \begin{column}{.3\textwidth}
+    \lipsum[11]
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Colorimétrie des documents}{Nom des couleurs}
+\vfill
+\begin{center}
+  \begin{tikzpicture}
+  \node[minimum width=1cm,minimum height=1cm,fill=ered] at (0,0) {} ;
+  \node[xshift=.5cm,anchor=west,text width=2cm] at (0,0) {ered\par erouge};
+  \draw node[minimum width=1cm,minimum height=1cm,fill=egreen] at (3,0) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (3,0) {egreen\par evert};
+  \node[minimum width=1cm,minimum height=1cm,fill=eyellow] at (6,0) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (6,0) {eyellow\par ejaune};
+  \node[minimum width=1cm,minimum height=1cm,fill=eblue] at (0,-2) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (0,-2) {eblue\par ebleu};
+  \node[minimum width=1cm,minimum height=1cm,fill=eorange] at (3,-2) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (3,-2) {eorange};
+  \node[minimum width=1cm,minimum height=1cm,fill=egray1] at (0,-4) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (0,-4) {egray1\par egris1};
+  \node[minimum width=1cm,minimum height=1cm,fill=egray2] at (3,-4) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (3,-4){egray2\par egris2};
+  \node[minimum width=1cm,minimum height=1cm,fill=egray3] at (6,-4) {}
+    node[xshift=.5cm,anchor=west,text width=2cm] at (6,-4) {egray3\par egris3};
+  \end{tikzpicture}
+\end{center}
+\vfill
+\end{frame}
+
+\end{document}

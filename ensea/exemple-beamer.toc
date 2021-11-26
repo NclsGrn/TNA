@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{CDC}{2}{0}{1}
+\beamer@sectionintoc {2}{Section 2}{4}{0}{2}
+\beamer@subsectionintoc {2}{1}{One column}{4}{0}{2}
+\beamer@subsectionintoc {2}{2}{More than one column}{5}{0}{2}

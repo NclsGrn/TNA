@@ -1,0 +1,31 @@
+# Mises en page LaTeX adaptées à la charte graphique de l'ENSEA - 2021
+
+
+## Installation
+Placer l'ensemble des fichiers dans un répertoire accessible à LaTeX.
+
+Le plus simple est de créer et d'utiliser le répertoire suivant, en fonction de votre OS.
+* Windows 10 (and miktex)
+  C:\Users\<user name>\Appdata\Local\MikTex\<number>\tex\latex\ensea\
+* Windows Vista/7:
+  C:\Users\<user name>\texmf\tex\latex\local\
+* Windows XP:
+  C:\Documents and Settings\<user name>\texmf\tex\latex\local\
+* Linux:
+  ~/texmf/tex/latex/ensea/
+* Mac OS X:
+  /Users/<user name>/Library/texmf/tex/latex/ensea/
+
+
+## Exemples
+Il y a 2 exemples d'utilisation *.tex, un pour la page de garde des polycopiés et un pour les diapositves.
+
+## Licence
+Ce travail est placé sous licence Creative Commons CC BY-SA 4.0
+[https://creativecommons.org/licenses/by-sa/4.0/]
+
+Toute amélioration est la bienvenue!
+
+
+## Auteurs
+2021: Christophe Bares  [mailto:christopheATensea.fr] 
