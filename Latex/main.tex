@@ -1,0 +1,311 @@
+\documentclass[
+10pt,
+aspectratio=169,
+]{beamer}
+
+
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usepackage{subfig}
+
+\title{TP Traitements Numériques Avancés}
+\subtitle{Ecouteurs à réduction de bruit}
+\date{Promo ESE 2022}
+\author{Nicolas Guérin et Emma Perret}
+%\institute{date}
+
+\usetheme{ensea}  
+
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%%% INTRODUCTION %%%
+\section{Introduction}
+\begin{frame} 
+\frametitle{Introduction} 
+Pour chaque bloc il faut réfléchir aux fréquences d'échantillonnage et de coupure mais également à la bande passante et au gain de cette bande. Il faut également penser à l'ordre du filtre. Pour chauqe signal, la fréquence d'échantillonnage et la longueur des mots sont déjà donnés.\\
+Pour un signal PCM, nous pouvon facilement trouver la bande passante et le rapport signal à bruit :
+\begin{enumerate} 
+\item La bande passante équivaut à la fréquence d'échantillonnage ($f_e ~ ou ~ f_s$) divisée par deux.
+\item Le rapport signal à bruit ($RSB ~ ou ~ SNR$) se définit de la sorte : $RSB = 6.02 * N + 1.76 $ avec $N ~ : ~ la ~ longueur ~ des ~ mots$. Il s'exprime en $dB$.
+\item Pour un signal sur 16 bits, $RSB = 98 dB$.
+\item Nous acceptons un $RSB - 4dB$. Pour cela, nous sommes obligés de passer par un dithering. Sans le dithering, le $RSB$ est de $-8 dB$ ce qui n'est pas acceptable.
+\end{enumerate}
+\end{frame}
+
+\begin{frame} 
+\frametitle{Introduction} 
+Nous avons donc listé les données pour tous les signaux PCM.\\
+Pour le signal de sortie de l'égalisateur : 
+\begin{enumerate} 
+\item $f_e = 48 kHz$
+\item $Bande-passante = f_e/2 = 24 kHz$
+\item $N = 20 bits$
+\item $RSB = 122.16 dB$
+\item $RSB ~accepté = RSB - 4 = 118.16 dB$
+\end{enumerate}
+\vspace*{0.7cm}
+Pour le signal de sortie du SR converter : 
+\begin{enumerate} 
+\item $f_e = 48 kHz$
+\item $Bande-passante = f_e/2 = 24 kHz$
+\item $N = 16 bits$
+\item $RSB = 98.08 dB$
+\item $RSB ~accepté = RSB - 4 = 94.08 dB$
+\end{enumerate}
+\end{frame}
+
+\begin{frame} 
+\frametitle{Introduction} 
+Pour le signal de sortie du player audio : 
+\begin{enumerate} 
+\item $f_e = 44.1 kHz$
+\item $Bande-passante = f_e/2 = 22.05 kHz$
+\item $N = 16 bits$
+\item $RSB = 98.08 dB$
+\item $RSB ~accepté = RSB - 4 = 94.08 dB$
+\end{enumerate}
+\vspace*{0.7cm}
+Pour les signaux de sortie du micro et du PDM modulator : 
+\begin{enumerate} 
+\item $f_e = 6.144 MHz$
+\item $Bande-passante = f_e/2 = 3.72 MHz$
+\item $N = 1 bits$
+\item $RSB = 122.16 dB$
+\item $RSB~accepté = RSB - 4 = 118.16 dB$
+\end{enumerate}
+\end{frame}
+%%% FIN INTRODUCTION %%%
+
+%%% PARTIE 1 : PDM %%%
+\section{Partie 1 : PDM}
+\subsection{Modulateur PDM}
+\begin{frame} 
+\frametitle{Partie 1 : Modulateur PDM} 
+Le modulateur PDM permet de moduler un signal analogique en un signal binaire en fonction de la densité du signal. En effet, plus l'amplitude du signal analogique est élevée, plus le signal binaire sera constitué d'une suite longue de 1.\\
+\vspace*{0.3cm}
+La génération du modulteur PDM a déjà été faite. Après avoir compris son fonctionnement, nous sommes donc directement passés au démodulateur PDM.
+\end{frame}
+
+\subsection{Démodulateur PDM}
+\subsubsection{Théorie}
+\begin{frame} 
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{Théorie} 
+La fréquence d'échantillonnage d'entrée vaut $f_e~=~6.144~MHz$ et celle de la sortie vaut $f_e~=~48~kHz$. Il y a un rapport de 128 entre les deux.\\
+Il faut sous-échantillonner mais si nous échantillonnons par 128, cela est trop brutal et entraîne un ordre de filtre trop élevé et une pulsation de coupure très faible. Il faut donc faire par étape. \\
+Mais avant de sous-échantilloner il faut filtrer. Nous avons choisi de prendre un filtre FIR, cela nous permet aussi de conserver la forme du signal puisque c'est un filtre à phase linéaire. Cependant le FIR entraîne des problèmes de latence car nous avons un RSB élevé ($120 dB$). Il faut donc faire attention au délai.
+\end{frame}
+
+\subsubsection{Signal d'entrée}
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{Signal d'entrée} 
+Nous observons d'abord le signal d'entrée~\ref{fig:entrée} : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/entrée.png}
+    \caption{Signal d'entrée}
+    \label{fig:entrée}
+\end{figure}
+\end{frame}
+
+\subsubsection{Mise en place des FIR}
+\begin{frame} 
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{FIR : Mise en place} 
+Dans un premier temps nous décidons de sous-échantilloneur par 16 puis par 8 (le produit des deux donne bien 128). \\
+Nous utilisons Filter Designer pour designer nos filtres FIR.\\
+Pour le filtre avant le sous-échantillonneur par 16, nous prenons : 
+\begin{enumerate}
+    \item $f_s~=~6.144~MHz$
+    \item $f_{stop}~=~f_e/16~=~384~kHz$
+    \item $A_{stop}~=~120~dB$
+\end{enumerate}
+\vspace*{0.7cm}
+Pour le filtre avant le sous-échantillonneur par 8, nous prenons : 
+\begin{enumerate}
+    \item $f_s~=~384~kHz$
+    \item $f_{stop}~=~f_e/16~=~24~kHz$
+    \item $A_{stop}~=~120~dB$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{FIR : Mise en place} 
+Nous créons nos deux filtres : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/FIR.png}
+    \caption{Filtres FIR}
+    \label{fig:FIR}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{FIR : Sous échantillonneur par 16}  
+Nous observons les sorties de chaque sous-échantillonneur : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/signal16.png}
+    \caption{Sortie du sous-échantillonneur par 16}
+    \label{fig:sig16}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{FIR : Sous échantillonneur par 8} 
+Voici alors notre sortie finale du démodulateur PDM : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/signal8.png}
+    \caption{Sortie du sous-échantillonneur par 8}
+    \label{fig:sig8}
+\end{figure}
+\end{frame}
+
+\subsubsection{Améliorations}
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{Améliorations} 
+Nous pouvons améliorer le démodulateur PDM en faisant plus d'étapes. En effet, les ordres de nos filtres sont encore assez élevés et créent un certain délai.\\
+Nous pouvons faire {8 puis 4 puis 4} ou encore {4 puis 4 puis 4 puis 2}.\\
+Plus nous auront de blocs, plus la latence sera minimale.\\
+\vspace{0.5cm}
+Par ailleurs, la latence est aussi dûe au choix du filtre. En effet, un filtre FIR crée un certain délai.\\
+Au lieu de créer plus de bloc, nous décidons de changer de filtre et d'opter pour des filtres IIR. Nous avons alors le choix entre un filtre Butterworth, Chebytchev type I, Chebytchev type II ou Elliptique.\\
+Pour le choix du type de IIR, nous regarderons la phase et l'ordre.
+\end{frame}
+
+\subsubsection{Mise en place des IIR}
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{IIR : Choix du type} 
+Voici les phases des 4 filtres designés pour être placé avant le sous-échantillonneur par 16 : 
+\begin{figure}
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/Phase_IIR_butterworth.PNG}
+    \caption{Butterworth}
+    \label{fig:butt}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/Phase_IIR_cheby_1.PNG}
+    \caption{Chebytchev type I}
+    \label{fig:cheb1}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/Phase_IIR_cheby_2.PNG}
+    \caption{Chebytchev type I}
+    \label{fig:cheb2}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/Phase_IIR_elliptic.PNG}
+    \caption{Elliptique}
+    \label{fig:ell}
+\end{subfigure}
+        
+\caption{Phases des filtres IIR}
+\label{fig:phases}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{IIR : Choix du type} 
+Les filtres Butterworth a un retournement de phase ce que nous souhaitons évité. Le filtre de Chebytchev type I a une phase qui atteint une valeure minimale importante en valeur absolue.Nouos éliminons ces deux là.\\
+La différence entre Chebytchev type II et Elliptique se fait au niveau de l'ordre. En effet le filtre de Chebytchev type II proposé par FilterDesigner est un ordre 104 alors que l'Elliptique est un ordre 22. Comme nous cherchons à minimiser l'ordre, nous choississons un filtre IIR elliptique.
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{IIR : Mise en place} 
+Nous utilisons alors ces filtres : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/IIR.png}
+    \caption{Filtres FIR}
+    \label{fig:FIR}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{IIR : Sous échantillonneur par 16}  
+Nous observons les sorties de chaque sous-échantillonneur : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/signal16_IIR.png}
+    \caption{Sortie du sous-échantillonneur par 16}
+    \label{fig:sig16}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{IIR : Sous échantillonneur par 8}  
+Voici alors notre sortie finale du démodulateur PDM : 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{Images/signal8_IIR.png}
+    \caption{Sortie du sous-échantillonneur par 8}
+    \label{fig:sig8}
+\end{figure}
+\end{frame}
+
+\subsubsection{Comparaison FIR et IIR}
+\begin{frame}
+\frametitle{Partie 1 : Démodulateur PDM} 
+\framesubtitle{Comparaison FIR et IIR}  
+Nous constatons bien que les IIR suppriment la latence : 
+\begin{figure}
+\centering
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/lat_FIR_16.PNG}
+    \caption{Filtre FIR avant sous-échantillonneur 16}
+    \label{fig:butt}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/lat_FIR_8.PNG}
+    \caption{Filtre FIR avant sous-échantillonneur 8}
+    \label{fig:cheb1}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/lat_IIR_16.PNG}
+    \caption{Filtre IIR avant sous-échantillonneur 16}
+    \label{fig:cheb2}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[scale=0.3]{Images/lat_IIR_8.PNG}
+    \caption{Filtre IIR avant sous-échantillonneur 8}
+    \label{fig:ell}
+\end{subfigure}
+        
+\caption{Comparaison des latences}
+\label{fig:phases}
+\end{figure}
+\end{frame}
+%%% FIN PARTIE 1 %%%
+
+%%% PARTIE 2 : SRC %%%
+\section{Partie 2 : SRC}
+\begin{frame} 
+\frametitle{Partie 2 : Sample-Rate Converter} 
+\framesubtitle{?} 
+?
+\end{frame}
+%%% FIN PARTIE 2 %%%
+
+\end{document}
