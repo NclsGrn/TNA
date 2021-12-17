@@ -1,0 +1,14 @@
+\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
+\beamer@sectionintoc {2}{Partie 1 : PDM}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Modulateur PDM}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{Démodulateur PDM}{6}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{1}{Théorie}{6}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{2}{Signal d'entrée}{7}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{3}{Mise en place des FIR}{8}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{4}{Améliorations}{12}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{5}{Mise en place des IIR}{13}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{6}{Comparaison FIR et IIR}{18}{0}{2}
+\beamer@sectionintoc {3}{Partie 2 : SRC}{19}{0}{3}
+\beamer@sectionintoc {4}{Parie 3 : Banc de filtres}{26}{0}{4}
+\beamer@subsectionintoc {4}{1}{Reconstruction du signal - Méthode fréquentielle}{26}{0}{4}
+\beamer@subsectionintoc {4}{2}{Méthode temporelle}{27}{0}{4}
