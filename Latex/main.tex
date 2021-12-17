@@ -7,7 +7,7 @@ aspectratio=169,
 \usepackage{lipsum}
 \usepackage{tikz}
 \usepackage{subcaption}
-\usepackage{subfig}
+%\usepackage{subfig}
 
 \title{TP Traitements Numériques Avancés}
 \subtitle{Ecouteurs à réduction de bruit}
@@ -47,7 +47,7 @@ Pour le signal de sortie de l'égalisateur :
 \item $Bande-passante = f_e/2 = 24 kHz$
 \item $N = 20 bits$
 \item $RSB = 122.16 dB$
-\item $RSB ~accepté = RSB - 4 = 118.16 dB$
+\item $RSB ~accepte = RSB - 4 = 118.16 dB$
 \end{enumerate}
 \vspace*{0.7cm}
 Pour le signal de sortie du SR converter : 
@@ -56,7 +56,7 @@ Pour le signal de sortie du SR converter :
 \item $Bande-passante = f_e/2 = 24 kHz$
 \item $N = 16 bits$
 \item $RSB = 98.08 dB$
-\item $RSB ~accepté = RSB - 4 = 94.08 dB$
+\item $RSB ~accepte = RSB - 4 = 94.08 dB$
 \end{enumerate}
 \end{frame}
 
@@ -68,7 +68,7 @@ Pour le signal de sortie du player audio :
 \item $Bande-passante = f_e/2 = 22.05 kHz$
 \item $N = 16 bits$
 \item $RSB = 98.08 dB$
-\item $RSB ~accepté = RSB - 4 = 94.08 dB$
+\item $RSB ~accepte = RSB - 4 = 94.08 dB$
 \end{enumerate}
 \vspace*{0.7cm}
 Pour les signaux de sortie du micro et du PDM modulator : 
@@ -77,7 +77,7 @@ Pour les signaux de sortie du micro et du PDM modulator :
 \item $Bande-passante = f_e/2 = 3.72 MHz$
 \item $N = 1 bits$
 \item $RSB = 122.16 dB$
-\item $RSB~accepté = RSB - 4 = 118.16 dB$
+\item $RSB~accepte = RSB - 4 = 118.16 dB$
 \end{enumerate}
 \end{frame}
 %%% FIN INTRODUCTION %%%
@@ -111,7 +111,6 @@ Nous observons d'abord le signal d'entrée~\ref{fig:entrée} :
     \centering
     \includegraphics[scale=0.2]{Images/entrée.png}
     \caption{Signal d'entrée}
-    \label{fig:entrée}
 \end{figure}
 \end{frame}
 
@@ -144,7 +143,6 @@ Nous créons nos deux filtres :
     \centering
     \includegraphics[scale=0.2]{Images/FIR.png}
     \caption{Filtres FIR}
-    \label{fig:FIR}
 \end{figure}
 \end{frame}
 
@@ -156,7 +154,6 @@ Nous observons les sorties de chaque sous-échantillonneur :
     \centering
     \includegraphics[scale=0.2]{Images/signal16.png}
     \caption{Sortie du sous-échantillonneur par 16}
-    \label{fig:sig16}
 \end{figure}
 \end{frame}
 
@@ -168,7 +165,6 @@ Voici alors notre sortie finale du démodulateur PDM :
     \centering
     \includegraphics[scale=0.2]{Images/signal8.png}
     \caption{Sortie du sous-échantillonneur par 8}
-    \label{fig:sig8}
 \end{figure}
 \end{frame}
 
@@ -195,24 +191,20 @@ Voici les phases des 4 filtres designés pour être placé avant le sous-échant
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/Phase_IIR_butterworth.PNG}
     \caption{Butterworth}
-    \label{fig:butt}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/Phase_IIR_cheby_1.PNG}
     \caption{Chebytchev type I}
-    \label{fig:cheb1}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/Phase_IIR_cheby_2.PNG}
     \caption{Chebytchev type I}
-    \label{fig:cheb2}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/Phase_IIR_elliptic.PNG}
     \caption{Elliptique}
-    \label{fig:ell}
 \end{subfigure}
         
 \caption{Phases des filtres IIR}
@@ -235,7 +227,6 @@ Nous utilisons alors ces filtres :
     \centering
     \includegraphics[scale=0.2]{Images/IIR.png}
     \caption{Filtres FIR}
-    \label{fig:FIR}
 \end{figure}
 \end{frame}
 
@@ -247,7 +238,6 @@ Nous observons les sorties de chaque sous-échantillonneur :
     \centering
     \includegraphics[scale=0.2]{Images/signal16_IIR.png}
     \caption{Sortie du sous-échantillonneur par 16}
-    \label{fig:sig16}
 \end{figure}
 \end{frame}
 
@@ -259,7 +249,6 @@ Voici alors notre sortie finale du démodulateur PDM :
     \centering
     \includegraphics[scale=0.2]{Images/signal8_IIR.png}
     \caption{Sortie du sous-échantillonneur par 8}
-    \label{fig:sig8}
 \end{figure}
 \end{frame}
 
@@ -273,28 +262,23 @@ Nous constatons bien que les IIR suppriment la latence :
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/lat_FIR_16.PNG}
     \caption{Filtre FIR avant sous-échantillonneur 16}
-    \label{fig:butt}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/lat_FIR_8.PNG}
     \caption{Filtre FIR avant sous-échantillonneur 8}
-    \label{fig:cheb1}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/lat_IIR_16.PNG}
     \caption{Filtre IIR avant sous-échantillonneur 16}
-    \label{fig:cheb2}
 \end{subfigure}
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[scale=0.3]{Images/lat_IIR_8.PNG}
     \caption{Filtre IIR avant sous-échantillonneur 8}
-    \label{fig:ell}
 \end{subfigure}
         
 \caption{Comparaison des latences}
-\label{fig:phases}
 \end{figure}
 \end{frame}
 %%% FIN PARTIE 1 %%%
@@ -307,5 +291,48 @@ Nous constatons bien que les IIR suppriment la latence :
 ?
 \end{frame}
 %%% FIN PARTIE 2 %%%
+
+%%% PARTIE 3 : Regulateur %%%
+%% TEMPOREL%%
+
+\section{Parie 3 : Banc de filtres}
+\subsection{Méthode temporelle}
+
+\begin{frame}
+\frametitle{Partie 3 : Banc de filtres temporels} 
+\framesubtitle{Principe}
+Dans un premier temps nous allons utiliser une méthode temporelle et faire un banc de filtres octaves à 9 étages pour avoir 10 bandes comme souhaité. \\
+Le but est d'ajouter un gain par bande entre l'analyse et la synthèse pour créer l'égaliseur. \\
+Nous construisons 4 filtres complémentaires avec la fonction $firpr2chfb$ pour ce banc de filtres. \\ \\
+Le vu mètre correspond simplement à la mesure de l'énergie sur chaque bande et sera matérialisé par une matrice.
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 3 : Banc de filtres temporels} 
+\framesubtitle{Analyse}
+Pour l'analyse, nous utilisons les filtres $H_0$ et $H_1$ et nous sous-échantillonnons par 2 à chaque étage comme ci-dessous.
+\begin{figure}
+    \centering
+    \includegraphics[width=10cm]{Images/analyse.png}
+    \caption{Analyse du banc de filtres}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 3 : Banc de filtres temporels} 
+\framesubtitle{Traitement : gains}
+Pour la partie traitement entre l'analyse et la synthèse, il s'agit juste d'offrir la possbilité d'appliquer à chaque bande le gain souhaité pour modifier l'ambiance de l'audio. Il suffit donc de multiplier chacun des 10 signaux de sortie de l'analyse par un gain associé (exmple : nous multiplions $x_1$ par $G_1$ etc.).
+\end{frame}
+
+\begin{frame}
+\frametitle{Partie 3 : Banc de filtres temporels} 
+\framesubtitle{Synthèse}
+Pour l'analyse, nous utilisons les filtres $F_0$ et $F_1$ et nous sur-échantillonnons par 2 à chaque étage comme ci-dessous.
+\begin{figure}
+    \centering
+    \includegraphics[width=12cm]{Images/synthèse.png}
+    \caption{Synthèse du banc de filtres}
+\end{figure}
+\end{frame}
 
 \end{document}
